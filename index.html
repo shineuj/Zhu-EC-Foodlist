@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Food List</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff7f7;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 15px;
+      padding: 10px;
+      text-align: center;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    }
+
+    .card img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .name {
+      font-weight: bold;
+      margin: 10px 0 5px;
+    }
+
+    .price {
+      color: #ff4d6d;
+      font-size: 14px;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 6px 10px;
+      background: #ff4d6d;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 12px;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>🍭 Yupistore Menu</h1>
+
+<div class="container">
+
+  <div class="card">
+    <img src="https://via.placeholder.com/150" />
+    <div class="name">Yupi Burger</div>
+    <div class="price">Rp 5.000</div>
+    <a class="btn" href="#">Order</a>
+  </div>
+
+  <div class="card">
+    <img src="https://via.placeholder.com/150" />
+    <div class="name">Yupi Pizza</div>
+    <div class="price">Rp 6.000</div>
+    <a class="btn" href="#">Order</a>
+  </div>
+
+  <div class="card">
+    <img src="https://via.placeholder.com/150" />
+    <div class="name">Yupi Cola</div>
+    <div class="price">Rp 4.000</div>
+    <a class="btn" href="#">Order</a>
+  </div>
+
+</div>
+
+</body>
+</html>
