@@ -244,38 +244,6 @@ function render(){
 
   document.getElementById("app").innerHTML = html;
 
-  // CART + STATS
-  let cartHTML = "";
-  let total = 0;
-  let totalFood = 0;
-  let maxLevel = 0;
-  let totalSelected = 0;
-
-  data.forEach((cat,i)=>{
-    cat.items.forEach((item,j)=>{
-      totalFood++;
-      if(item.level > maxLevel) maxLevel = item.level;
-
-      let qty = getQty(i,j);
-      totalSelected += qty;
-
-      if(qty > 0){
-        let subtotal = qty * item.price;
-        total += subtotal;
-
-        cartHTML += `<div>${item.name} x${qty} = ${subtotal}</div>`;
-      }
-    });
-  });
-
-  document.getElementById("cartList").innerHTML = cartHTML || "Kosong";
-  document.getElementById("total").innerHTML = "Total: " + total;
-
-  document.getElementById("totalFood").innerText = totalFood;
-  document.getElementById("maxLevel").innerText = maxLevel;
-  document.getElementById("totalSelected").innerText = totalSelected;
-}
-
 render();
   <script>
 let cart = {};
