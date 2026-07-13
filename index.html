@@ -277,6 +277,48 @@ function render(){
 }
 
 render();
+  <script>
+let cart = {};
+let totalSelected = 0;
+
+// tambah item
+function addItem(name, amount) {
+  if (!cart[name]) cart[name] = 0;
+  cart[name] += amount;
+  if (cart[name] < 0) cart[name] = 0;
+
+  updateCart();
+}
+
+// update tampilan
+function updateCart() {
+  let list = "";
+  totalSelected = 0;
+
+  for (let item in cart) {
+    if (cart[item] > 0) {
+      list += `${item} x${cart[item]}\n`;
+      totalSelected += cart[item];
+    }
+  }
+
+  document.getElementById("selectedList").innerText = list || "Belum ada item dipilih";
+  document.getElementById("totalSelected").innerText = totalSelected;
+}
+
+// tombol salin
+function copyList() {
+  let text = document.getElementById("selectedList").innerText;
+
+  navigator.clipboard.writeText(text);
+  alert("List berhasil disalin!");
+}
+
+// reset
+function resetCart() {
+  cart = {};
+  updateCart();
+}
 </script>
 
 </body>
