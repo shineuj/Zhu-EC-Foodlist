@@ -32,31 +32,47 @@ input {
   cursor: pointer;
 }
 
-/* SUB ITEM */
-.sub {
-  margin-left: 10px;
-}
-
-.sub-item {
-  background: white;
-  padding: 8px;
-  border-radius: 8px;
-  margin: 5px 0;
-  display: flex;
-  justify-content: space-between;
-}
-
-/* LEVEL */
+/* LEVEL BADGE */
 .lvl {
   font-size: 12px;
-  background: #fde68a;
+  background: #e5e7eb;
   padding: 4px 8px;
   border-radius: 8px;
   font-weight: bold;
 }
 
-.locked {
-  opacity: 0.5;
+/* SUB ITEM */
+.sub {
+  margin-left: 5px;
+}
+
+.sub-item {
+  background: white;
+  padding: 8px;
+  border-radius: 10px;
+  margin: 6px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* IMAGE */
+.thumb {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  object-fit: cover;
+  background: #eee;
+}
+
+/* INFO */
+.info {
+  flex: 1;
+}
+
+.price {
+  font-size: 12px;
+  color: #666;
 }
 
 /* BUTTON */
@@ -85,7 +101,7 @@ button {
 
 <h2>🛒 Food List</h2>
 
-<input type="text" id="search" placeholder="Cari food...">
+<input type="text" id="search" placeholder="Cari makanan...">
 
 <div id="list"></div>
 
@@ -96,7 +112,6 @@ button {
 </div>
 
 <script>
-let userLevel = 10;
 let openIndex = null;
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
@@ -105,24 +120,24 @@ const categories = [
     name: "🔥 BBQ Grill",
     level: 5,
     items: [
-      { name: "Grilled Steak", price: 2000 },
-      { name: "BBQ Chicken", price: 1800 }
+      { name: "Grilled Steak", price: 2000, img: "img/steak.jpg" },
+      { name: "BBQ Chicken", price: 1800, img: "img/bbq.jpg" }
     ]
   },
   {
     name: "🥧 Pie Oven",
     level: 3,
     items: [
-      { name: "Apple Pie", price: 1500 },
-      { name: "Berry Pie", price: 1600 }
+      { name: "Apple Pie", price: 1500, img: "img/pie.jpg" },
+      { name: "Berry Pie", price: 1600, img: "img/pie2.jpg" }
     ]
   },
   {
-    name: "🧵 Sewing Machine",
-    level: 17,
+    name: "🧃 Juice Press",
+    level: 6,
     items: [
-      { name: "Sweater", price: 5000 },
-      { name: "Cotton Fabric", price: 3000 }
+      { name: "Orange Juice", price: 1200, img: "img/juice.jpg" },
+      { name: "Berry Juice", price: 1300, img: "img/juice2.jpg" }
     ]
   }
 ];
@@ -133,7 +148,6 @@ function render() {
   list.innerHTML = "";
 
   categories.forEach((cat, i) => {
-
     let div = document.createElement("div");
 
     div.innerHTML = `
@@ -148,12 +162,20 @@ function render() {
           .filter(item => item.name.toLowerCase().includes(keyword))
           .map((item, j) => `
             <div class="sub-item">
-              ${item.name}
+              
+              <img src="${item.img}" class="thumb">
+
+              <div class="info">
+                <div>${item.name}</div>
+                <div class="price">Rp ${item.price}</div>
+              </div>
+
               <div>
                 <button onclick="add(${i},${j})">+</button>
                 <span class="qty">${getQty(i,j)}</span>
                 <button onclick="remove(${i},${j})">-</button>
               </div>
+
             </div>
           `).join("")
         }
@@ -207,9 +229,7 @@ function renderCart() {
     let item = categories[c.cat].items[c.item];
     total += item.price * c.qty;
 
-    cartDiv.innerHTML += `
-      <div>${item.name} x ${c.qty}</div>
-    `;
+    cartDiv.innerHTML += `<div>${item.name} x ${c.qty}</div>`;
   });
 
   document.getElementById("total").innerText = total;
