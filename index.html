@@ -2,13 +2,40 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>Zhu Foodlist</title>
+<title>Zhu Store Food Manager</title>
 
 <style>
 body {
   font-family: Arial;
   background: #f6f6f6;
   padding: 15px;
+}
+
+/* HEADER */
+.header {
+  background: #dfead5;
+  padding: 15px;
+  border-radius: 15px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.sub-icons {
+  font-size: 18px;
+  margin-top: 5px;
+}
+
+/* STATS */
+.stats {
+  background: #f3f3f3;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.stats div {
+  margin: 3px 0;
 }
 
 /* SEARCH */
@@ -105,10 +132,26 @@ button {
 
 <body>
 
+<!-- HEADER -->
+<div class="header">
+  <h2>🍃 Zhu Store Food Manager 🍃</h2>
+  <div class="sub-icons">🐔 🌽 🚜 🐄</div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div>📦 Total Food: <span id="totalFood">0</span></div>
+  <div>⭐ Level Tertinggi: <span id="maxLevel">0</span></div>
+  <div>🛒 Total Dipilih: <span id="totalSelected">0</span></div>
+</div>
+
+<!-- SEARCH -->
 <input type="text" class="search" placeholder="🔍 Cari food..." onkeyup="render()">
 
+<!-- LIST -->
 <div id="app"></div>
 
+<!-- CART -->
 <div class="cart">
   <div>🛒 Keranjang:</div>
   <div id="cartList"></div>
@@ -201,26 +244,36 @@ function render(){
 
   document.getElementById("app").innerHTML = html;
 
-  // CART
+  // CART + STATS
   let cartHTML = "";
   let total = 0;
+  let totalFood = 0;
+  let maxLevel = 0;
+  let totalSelected = 0;
 
   data.forEach((cat,i)=>{
     cat.items.forEach((item,j)=>{
+      totalFood++;
+      if(item.level > maxLevel) maxLevel = item.level;
+
       let qty = getQty(i,j);
+      totalSelected += qty;
+
       if(qty > 0){
         let subtotal = qty * item.price;
         total += subtotal;
 
-        cartHTML += `
-          <div>${item.name} x${qty} = ${subtotal}</div>
-        `;
+        cartHTML += `<div>${item.name} x${qty} = ${subtotal}</div>`;
       }
     });
   });
 
   document.getElementById("cartList").innerHTML = cartHTML || "Kosong";
   document.getElementById("total").innerHTML = "Total: " + total;
+
+  document.getElementById("totalFood").innerText = totalFood;
+  document.getElementById("maxLevel").innerText = maxLevel;
+  document.getElementById("totalSelected").innerText = totalSelected;
 }
 
 render();
