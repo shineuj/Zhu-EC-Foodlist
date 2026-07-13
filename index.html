@@ -16,20 +16,13 @@ body {
   padding: 15px;
   border-radius: 15px;
   text-align: center;
-  margin-bottom: 10px;
-}
-
-.sub-icons {
-  font-size: 18px;
-  margin-top: 5px;
 }
 
 .stats {
   background: #f3f3f3;
   padding: 10px;
   border-radius: 10px;
-  margin-bottom: 10px;
-  font-size: 14px;
+  margin: 10px 0;
 }
 
 .search {
@@ -44,9 +37,8 @@ body {
   background: #e7d8b1;
   padding: 10px;
   border-radius: 10px;
-  margin-top: 15px;
+  margin-top: 10px;
   cursor: pointer;
-  font-weight: bold;
 }
 
 .item {
@@ -63,7 +55,6 @@ body {
   width: 55px;
   height: 55px;
   border-radius: 10px;
-  object-fit: cover;
   background: #eee;
 }
 
@@ -71,9 +62,178 @@ body {
   flex: 1;
 }
 
-.name {
-  font-weight: bold;
+.level, .stock {
+  font-size: 12px;
+  color: #888;
 }
 
-.level {
-  font
+.controls {
+  display: flex;
+  gap: 5px;
+}
+
+button {
+  padding: 5px 8px;
+  border-radius: 6px;
+  border: none;
+  background: #d9e5c3;
+}
+
+.cart {
+  background: white;
+  padding: 10px;
+  border-radius: 12px;
+  margin-top: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <h2>🍃 Zhu Store Food Manager 🍃</h2>
+</div>
+
+<div class="stats">
+  📦 Total Food: <span id="totalFood"></span> |
+  ⭐ Max Level: <span id="maxLevel"></span> |
+  🛒 Dipilih: <span id="totalSelected"></span>
+</div>
+
+<input class="search" placeholder="🔍 Cari..." onkeyup="render()">
+
+<div id="app"></div>
+
+<div class="cart">
+  <b>🛒 Keranjang</b>
+  <pre id="cartList">Kosong</pre>
+  📦 Total Item: <span id="totalSelectedCart">0</span><br><br>
+  <button onclick="copyList()">📋 Salin List (Pakai Stock)</button>
+</div>
+
+<script>
+let data = [
+{
+  name: "Sugar Mill",
+  open: true,
+  items: [
+    {name:"Brown Sugar", level:7, stock:100, img:"img/brownsugar.png"},
+    {name:"White Sugar", level:13, stock:80, img:"img/whitesugar.png"},
+  ]
+},
+{
+  name: "BBQ Grill",
+  open: false,
+  items: [
+    {name:"BBQ Chicken", level:15, stock:50, img:"img/chicken.png"},
+    {name:"Steak", level:20, stock:40, img:"img/steak.png"},
+  ]
+}
+];
+
+let cart = {};
+
+function toggle(i){
+  data[i].open = !data[i].open;
+  render();
+}
+
+function add(i,j){
+  let item = data[i].items[j];
+  let key = i+"-"+j;
+
+  if(item.stock >= 10){
+    cart[key] = (cart[key]||0)+10;
+    item.stock -= 10; // 🔥 langsung kurang
+  }
+
+  render();
+}
+
+function remove(i,j){
+  let item = data[i].items[j];
+  let key = i+"-"+j;
+
+  if(cart[key] > 0){
+    cart[key] -= 10;
+    item.stock += 10; // balikin stock
+  }
+
+  render();
+}
+
+function getQty(i,j){
+  return cart[i+"-"+j] || 0;
+}
+
+function copyList(){
+  let text = document.getElementById("cartList").innerText;
+  navigator.clipboard.writeText(text);
+  alert("List disalin & stock sudah dipakai!");
+}
+
+function render(){
+  let q = document.querySelector(".search").value.toLowerCase();
+  let html = "";
+
+  data.forEach((cat,i)=>{
+    html += `<div class="category" onclick="toggle(${i})">📦 ${cat.name}</div>`;
+
+    if(cat.open){
+      cat.items.forEach((item,j)=>{
+        if(item.name.toLowerCase().includes(q)){
+          html += `
+          <div class="item">
+            <img src="${item.img}" class="thumb">
+
+            <div class="info">
+              <div><b>${item.name}</b></div>
+              <div class="level">⭐ Lv. ${item.level}</div>
+              <div class="stock">🧰 Stock: ${item.stock}</div>
+            </div>
+
+            <div class="controls">
+              <button onclick="remove(${i},${j})">-10</button>
+              <div>${getQty(i,j)}</div>
+              <button onclick="add(${i},${j})">+10</button>
+            </div>
+          </div>
+          `;
+        }
+      });
+    }
+  });
+
+  document.getElementById("app").innerHTML = html;
+
+  let cartHTML = "";
+  let totalFood = 0;
+  let maxLevel = 0;
+  let totalSelected = 0;
+
+  data.forEach((cat,i)=>{
+    cat.items.forEach((item,j)=>{
+      totalFood++;
+      if(item.level > maxLevel) maxLevel = item.level;
+
+      let qty = getQty(i,j);
+      totalSelected += qty;
+
+      if(qty > 0){
+        cartHTML += `• ${item.name} x${qty}\n`;
+      }
+    });
+  });
+
+  document.getElementById("cartList").innerText = cartHTML || "Kosong";
+  document.getElementById("totalFood").innerText = totalFood;
+  document.getElementById("maxLevel").innerText = maxLevel;
+  document.getElementById("totalSelected").innerText = totalSelected;
+  document.getElementById("totalSelectedCart").innerText = totalSelected;
+}
+
+render();
+</script>
+
+</body>
+</html>
