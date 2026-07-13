@@ -11,7 +11,6 @@ body {
   padding: 15px;
 }
 
-/* HEADER */
 .header {
   background: #dfead5;
   padding: 15px;
@@ -25,7 +24,6 @@ body {
   margin-top: 5px;
 }
 
-/* STATS */
 .stats {
   background: #f3f3f3;
   padding: 10px;
@@ -34,11 +32,6 @@ body {
   font-size: 14px;
 }
 
-.stats div {
-  margin: 3px 0;
-}
-
-/* SEARCH */
 .search {
   width: 100%;
   padding: 10px;
@@ -47,7 +40,6 @@ body {
   margin-bottom: 10px;
 }
 
-/* CATEGORY */
 .category {
   background: #e7d8b1;
   padding: 10px;
@@ -57,7 +49,6 @@ body {
   font-weight: bold;
 }
 
-/* ITEM */
 .item {
   background: white;
   padding: 10px;
@@ -68,7 +59,6 @@ body {
   gap: 10px;
 }
 
-/* IMAGE */
 .thumb {
   width: 55px;
   height: 55px;
@@ -77,7 +67,6 @@ body {
   background: #eee;
 }
 
-/* INFO */
 .info {
   flex: 1;
 }
@@ -87,207 +76,4 @@ body {
 }
 
 .level {
-  font-size: 12px;
-  color: #888;
-}
-
-.price {
-  font-size: 13px;
-}
-
-/* BUTTON */
-.controls {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-button {
-  padding: 5px 8px;
-  border-radius: 6px;
-  border: none;
-  background: #d9e5c3;
-  cursor: pointer;
-}
-
-.qty {
-  min-width: 20px;
-  text-align: center;
-}
-
-/* CART */
-.cart {
-  background: white;
-  padding: 10px;
-  border-radius: 12px;
-  margin-top: 20px;
-}
-
-.total {
-  font-weight: bold;
-  margin-top: 10px;
-}
-</style>
-</head>
-
-<body>
-
-<!-- HEADER -->
-<div class="header">
-  <h2>🍃 Zhu Store Food Manager 🍃</h2>
-  <div class="sub-icons">🐔 🌽 🚜 🐄</div>
-</div>
-
-<!-- STATS -->
-<div class="stats">
-  <div>📦 Total Food: <span id="totalFood">0</span></div>
-  <div>⭐ Level Tertinggi: <span id="maxLevel">0</span></div>
-  <div>🛒 Total Dipilih: <span id="totalSelected">0</span></div>
-</div>
-
-<!-- SEARCH -->
-<input type="text" class="search" placeholder="🔍 Cari food..." onkeyup="render()">
-
-<!-- LIST -->
-<div id="app"></div>
-
-<!-- CART -->
-<div class="cart">
-  <div>🛒 Keranjang:</div>
-  <div id="cartList"></div>
-  <div class="total" id="total"></div>
-</div>
-
-<script>
-let data = [
-{
-  name: "Sugar Mill",
-  open: true,
-  items: [
-    {name:"Brown Sugar", level:7, price:500, img:"img/brownsugar.png"},
-    {name:"White Sugar", level:13, price:500, img:"img/whitesugar.png"},
-    {name:"Syrup", level:18, price:700, img:"img/syrup.png"}
-  ]
-},
-{
-  name: "BBQ Grill",
-  open: false,
-  items: [
-    {name:"Grilled Steak", level:20, price:2000, img:"img/steak.png"},
-    {name:"BBQ Chicken", level:15, price:1500, img:"img/chicken.png"}
-  ]
-}
-];
-
-let cart = {};
-
-function toggle(i){
-  data[i].open = !data[i].open;
-  render();
-}
-
-function add(i,j){
-  let key = i+"-"+j;
-  cart[key] = (cart[key]||0)+10;
-  render();
-}
-
-function remove(i,j){
-  let key = i+"-"+j;
-  cart[key] = (cart[key]||0)-10;
-  if(cart[key] < 0) cart[key] = 0;
-  render();
-}
-
-function getQty(i,j){
-  return cart[i+"-"+j] || 0;
-}
-
-function render(){
-  let q = document.querySelector(".search").value.toLowerCase();
-  let html = "";
-
-  data.forEach((cat,i)=>{
-    html += `
-      <div class="category" onclick="toggle(${i})">
-        📦 ${cat.name}
-      </div>
-    `;
-
-    if(cat.open){
-      cat.items.forEach((item,j)=>{
-
-        if(item.name.toLowerCase().includes(q)){
-
-          html += `
-          <div class="item">
-            <img src="${item.img}" class="thumb">
-
-            <div class="info">
-              <div class="name">${item.name}</div>
-              <div class="level">⭐ Lv. ${item.level}</div>
-              <div class="price">🪙 ${item.price}</div>
-            </div>
-
-            <div class="controls">
-              <button onclick="remove(${i},${j})">-10</button>
-              <div class="qty">${getQty(i,j)}</div>
-              <button onclick="add(${i},${j})">+10</button>
-            </div>
-          </div>
-          `;
-        }
-
-      });
-    }
-  });
-
-  document.getElementById("app").innerHTML = html;
-
-render();
-  <script>
-let cart = {};
-let totalSelected = 0;
-
-// tambah item
-function addItem(name, amount) {
-  if (!cart[name]) cart[name] = 0;
-  cart[name] += amount;
-  if (cart[name] < 0) cart[name] = 0;
-
-  updateCart();
-}
-
-// update tampilan
-function updateCart() {
-  let list = "";
-  totalSelected = 0;
-
-  for (let item in cart) {
-    if (cart[item] > 0) {
-      list += `${item} x${cart[item]}\n`;
-      totalSelected += cart[item];
-    }
-  }
-
-  document.getElementById("selectedList").innerText = list || "Belum ada item dipilih";
-  document.getElementById("totalSelected").innerText = totalSelected;
-}
-
-// tombol salin
-function copyList() {
-  let text = document.getElementById("selectedList").innerText;
-
-  navigator.clipboard.writeText(text);
-  alert("List berhasil disalin!");
-}
-
-// reset
-function resetCart() {
-  cart = {};
-  updateCart();
-}
-</script>
-
-</body>
-</html>
+  font
