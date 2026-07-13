@@ -2,65 +2,52 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Zhu EC Foodlist</title>
+<title>Food List</title>
 
 <style>
 body {
-  font-family: sans-serif;
-  background: #f9fafb;
+  font-family: Arial;
+  background: #f6f6f6;
   padding: 15px;
 }
 
-/* SEARCH */
-input {
+.search {
   width: 100%;
   padding: 10px;
-  border-radius: 10px;
-  border: 1px solid #ddd;
+  border-radius: 20px;
+  border: 1px solid #ccc;
   margin-bottom: 10px;
 }
 
-/* CATEGORY */
 .category {
-  background: #f3e7d3;
-  padding: 12px;
-  border-radius: 12px;
-  margin: 10px 0;
-  display: flex;
-  justify-content: space-between;
+  background: #e7d8b1;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 15px;
   cursor: pointer;
-}
-
-/* LEVEL BADGE */
-.lvl {
-  font-size: 12px;
-  background: #e5e7eb;
-  padding: 4px 8px;
-  border-radius: 8px;
   font-weight: bold;
 }
 
-/* SUB ITEM */
 .sub {
-  margin-left: 5px;
+  display: none;
+  margin-top: 10px;
 }
 
-.sub-item {
+.item {
   background: white;
-  padding: 8px;
-  border-radius: 10px;
-  margin: 6px 0;
+  padding: 10px;
+  border-radius: 12px;
+  margin-bottom: 8px;
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-/* IMAGE */
+/* GAMBAR */
 .thumb {
-  width: 50px;
-  height: 50px;
-  border-radius: 8px;
+  width: 55px;
+  height: 55px;
+  border-radius: 10px;
   object-fit: cover;
   background: #eee;
 }
@@ -70,177 +57,148 @@ input {
   flex: 1;
 }
 
-.price {
+.name {
+  font-weight: bold;
+}
+
+.level {
   font-size: 12px;
-  color: #666;
+  color: #888;
+  margin: 2px 0;
+}
+
+.price {
+  font-size: 13px;
 }
 
 /* BUTTON */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
 button {
-  border: none;
-  padding: 4px 8px;
+  padding: 5px 8px;
   border-radius: 6px;
+  border: none;
+  background: #d9e5c3;
   cursor: pointer;
 }
 
 .qty {
-  margin: 0 6px;
-}
-
-/* CART */
-.cart {
-  margin-top: 20px;
-  padding: 12px;
-  background: #e5f3ff;
-  border-radius: 12px;
+  min-width: 20px;
+  text-align: center;
 }
 </style>
 </head>
 
 <body>
 
-<h2>🛒 Food List</h2>
+<input type="text" class="search" placeholder="🔍 Cari food..." onkeyup="render()">
 
-<input type="text" id="search" placeholder="Cari makanan...">
-
-<div id="list"></div>
-
-<div class="cart">
-  <h3>Keranjang</h3>
-  <div id="cart"></div>
-  <h3>Total: Rp <span id="total">0</span></h3>
-</div>
+<div id="app"></div>
 
 <script>
-let openIndex = null;
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-const categories = [
-  {
-    name: "🔥 BBQ Grill",
-    level: 5,
-    items: [
-      { name: "Grilled Steak", price: 2000, img: "img/steak.jpg" },
-      { name: "BBQ Chicken", price: 1800, img: "img/bbq.jpg" }
-    ]
-  },
-  {
-    name: "🥧 Pie Oven",
-    level: 3,
-    items: [
-      { name: "Apple Pie", price: 1500, img: "img/pie.jpg" },
-      { name: "Berry Pie", price: 1600, img: "img/pie2.jpg" }
-    ]
-  },
-  {
-    name: "🧃 Juice Press",
-    level: 6,
-    items: [
-      { name: "Orange Juice", price: 1200, img: "img/juice.jpg" },
-      { name: "Berry Juice", price: 1300, img: "img/juice2.jpg" }
-    ]
-  }
+let data = [
+{
+  name: "Sugar Mill",
+  open: false,
+  items: [
+    {
+      name: "Brown Sugar",
+      level: 7,
+      price: 500,
+      img: "img/brownsugar.png"
+    },
+    {
+      name: "White Sugar",
+      level: 13,
+      price: 500,
+      img: "img/whitesugar.png"
+    },
+    {
+      name: "Syrup",
+      level: 18,
+      price: 700,
+      img: "img/syrup.png"
+    }
+  ]
+}
 ];
 
-function render() {
-  const list = document.getElementById("list");
-  const keyword = document.getElementById("search").value.toLowerCase();
-  list.innerHTML = "";
+let cart = {};
 
-  categories.forEach((cat, i) => {
-    let div = document.createElement("div");
+function toggle(i){
+  data[i].open = !data[i].open;
+  render();
+}
 
-    div.innerHTML = `
+function add(i,j){
+  let key = i+"-"+j;
+  cart[key] = (cart[key]||0)+10;
+  render();
+}
+
+function remove(i,j){
+  let key = i+"-"+j;
+  cart[key] = (cart[key]||0)-10;
+  if(cart[key] < 0) cart[key] = 0;
+  render();
+}
+
+function getQty(i,j){
+  return cart[i+"-"+j] || 0;
+}
+
+function render(){
+  let q = document.querySelector(".search").value.toLowerCase();
+  let html = "";
+
+  data.forEach((cat,i)=>{
+    html += `
       <div class="category" onclick="toggle(${i})">
-        ${cat.name}
-        <span class="lvl">Lv. ${cat.level}</span>
-      </div>
-
-      <div class="sub" style="display:${openIndex === i ? 'block' : 'none'}">
-        ${
-          cat.items
-          .filter(item => item.name.toLowerCase().includes(keyword))
-          .map((item, j) => `
-            <div class="sub-item">
-              
-              <img src="${item.img}" class="thumb">
-
-              <div class="info">
-                <div>${item.name}</div>
-                <div class="price">Rp ${item.price}</div>
-              </div>
-
-              <div>
-                <button onclick="add(${i},${j})">+</button>
-                <span class="qty">${getQty(i,j)}</span>
-                <button onclick="remove(${i},${j})">-</button>
-              </div>
-
-            </div>
-          `).join("")
-        }
+        📦 ${cat.name}
       </div>
     `;
 
-    list.appendChild(div);
+    if(cat.open){
+      html += `<div class="sub">`;
+
+      cat.items.forEach((item,j)=>{
+
+        if(item.name.toLowerCase().includes(q)){
+
+          html += `
+          <div class="item">
+
+            <img src="${item.img}" class="thumb">
+
+            <div class="info">
+              <div class="name">${item.name}</div>
+              <div class="level">⭐ Lv. ${item.level}</div>
+              <div class="price">🪙 ${item.price}</div>
+            </div>
+
+            <div class="controls">
+              <button onclick="remove(${i},${j})">-10</button>
+              <div class="qty">${getQty(i,j)}</div>
+              <button onclick="add(${i},${j})">+10</button>
+            </div>
+
+          </div>
+          `;
+        }
+
+      });
+
+      html += `</div>`;
+    }
+
   });
 
-  renderCart();
+  document.getElementById("app").innerHTML = html;
 }
-
-function toggle(i) {
-  openIndex = openIndex === i ? null : i;
-  render();
-}
-
-function getQty(i, j) {
-  let item = cart.find(x => x.cat === i && x.item === j);
-  return item ? item.qty : 0;
-}
-
-function add(i, j) {
-  let item = cart.find(x => x.cat === i && x.item === j);
-
-  if (item) item.qty++;
-  else cart.push({ cat: i, item: j, qty: 1 });
-
-  save();
-}
-
-function remove(i, j) {
-  let item = cart.find(x => x.cat === i && x.item === j);
-  if (!item) return;
-
-  item.qty--;
-  if (item.qty <= 0) {
-    cart = cart.filter(x => !(x.cat === i && x.item === j));
-  }
-
-  save();
-}
-
-function renderCart() {
-  const cartDiv = document.getElementById("cart");
-  cartDiv.innerHTML = "";
-
-  let total = 0;
-
-  cart.forEach(c => {
-    let item = categories[c.cat].items[c.item];
-    total += item.price * c.qty;
-
-    cartDiv.innerHTML += `<div>${item.name} x ${c.qty}</div>`;
-  });
-
-  document.getElementById("total").innerText = total;
-}
-
-function save() {
-  localStorage.setItem("cart", JSON.stringify(cart));
-  render();
-}
-
-document.getElementById("search").addEventListener("input", render);
 
 render();
 </script>
