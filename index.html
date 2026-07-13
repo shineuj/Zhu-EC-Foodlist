@@ -133,14 +133,13 @@ function render() {
   list.innerHTML = "";
 
   categories.forEach((cat, i) => {
-    let locked = userLevel < cat.level;
 
     let div = document.createElement("div");
 
     div.innerHTML = `
-      <div class="category ${locked ? 'locked' : ''}" onclick="${locked ? '' : `toggle(${i})`}">
+      <div class="category" onclick="toggle(${i})">
         ${cat.name}
-        <span class="lvl">Lv. ${cat.level} ${locked ? '🔒' : ''}</span>
+        <span class="lvl">Lv. ${cat.level}</span>
       </div>
 
       <div class="sub" style="display:${openIndex === i ? 'block' : 'none'}">
