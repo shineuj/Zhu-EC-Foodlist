@@ -226,14 +226,14 @@ let data = [
     {name:"Fish Pie", level:28, stock:1000, img:"Fish_Pie.webp"},
     {name:"Feta Pie", level:34, stock:1000, img:"Feta_Pie.webp"},
     {name:"Casserole", level:36, stock:1000, img:"Casserole.webp"},
-    {name:"Shepherd's Pie", level:39, stock:1000, img:"Sepherd%27s.webp"},
+    {name:"Shepherd's Pie", level:39, stock:1000, img:"Sepherd%27s_Pie.webp"},
     {name:"Asparagus Quiche", level:49, stock:1000, img:"Asparagus_Quiche.webp"},
     {name:"Chocolate Pie", level:65, stock:1000, img:"Chocolate_Pie.webp"},
     {name:"Lemon pie", level:67, stock:1000, img:"Lemon_Pie.webp"},
     {name:"Peach Tart", level:76, stock:1000, img:"Peach_Tart.webp"},
     {name:"Passion Fruit Pie", level:92, stock:1000, img:"Passion_Fruit_Pie.webp"},
     {name:"Mushroom Pot Pie", level:97, stock:1000, img:"Mushroom_Pot_Pie.webp"},
-    {name:"Eggplant Pamersan", level:99, stock:1000, img:"Eggplant_Pamersan.webp"},
+    {name:"Eggplant Parmesan", level:99, stock:1000, img:"Eggplant_Parmesan.webp"},
   ]
 },
 {
@@ -243,7 +243,7 @@ let data = [
   items: [
     {name:"Sweater", level:17, stock:1000, img:"Sweater.webp"},
     {name:"Cotton Fabric", level:18, stock:1000, img:"Cotton_Fabric.webp"},
-    {name:"Blue Woolly Hat", level:19, stock:1000, img:"Blue_Wolly_Hat.webp"},
+    {name:"Blue Woolly Hat", level:19, stock:1000, img:"Blue_Woolly_Hat.webp"},
     {name:"Blue Sweater", level:20, stock:1000, img:"Blue_Sweater.webp"},
     {name:"Red Scarf", level:48, stock:1000, img:"Red_Scarf.webp"},
     {name:"Flower Shawl", level:71, stock:1000, img:"Flower_Shawl.webp"},
@@ -257,7 +257,7 @@ let data = [
     {name:"Cotton Shirt", level:19, stock:1000, img:"Cotton_Shirt.webp"},
     {name:"Wooly Chaps", level:21, stock:1000, img:"Wooly_Chaps.webp"},
     {name:"Violet Dress", level:25, stock:1000, img:"Violet_Dress.webp"},
-    {name:"Shooting Pad", level:45, stock:1000, img:"Shooting_Pad.webp"},
+    {name:"Soothing Pad", level:45, stock:1000, img:"Soothing_Pad.webp"},
     {name:"Pillow", level:51, stock:1000, img:"Pillow.webp"},
     {name:"Blanket", level:59, stock:1000, img:"Blanket.webp"},
   ]
@@ -336,7 +336,7 @@ function render(){
   data.forEach((cat, i) => {
     html += `
     <div class="category" onclick="toggle(${i})">
-        <img src="img/${cat.icon}" class="cat-icon">
+        <img src="img/${test.webp}" class="cat-icon">
         ${cat.name}
     </div>`;
 
