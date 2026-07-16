@@ -138,6 +138,7 @@ button {
 let data = [
 {
   name: "Bakery",
+  icon: "Bakery.webp",
   open: false,
   items: [
     {name:"Bread", level:2, stock:1000, img:"bread.png"}, 
@@ -157,6 +158,7 @@ let data = [
 },
 {
   name: "Dairy",
+  icon: "Dairy.webp",
   open: false,
   items: [
     {name:"Cream", level:6, stock:1000, img:"Cream.webp"},
@@ -167,6 +169,7 @@ let data = [
 },
 {
   name: "Sugar Mill",
+  icon: "Sugar_Mill.webp",
   open: false,
   items: [
     {name:"Brown Sugar", level:7, stock:100, img:"Brown_Sugar.webp"},
@@ -176,6 +179,7 @@ let data = [
 },
 {
   name: "Popcorn Pot",
+  icon: "Popcorn_Pot.webp",
   open: false,
   items: [
     {name:"Popcorn", level:8, stock:1000, img:"Popcorn.webp"}, 
@@ -188,6 +192,7 @@ let data = [
 },
 {
   name: "BBQ Grill",
+  Icon: "BBQ_Grill.webp",
   open: false,
   items: [
     {name:"Pancake", level:9, stock:1000, img:"Pancake.webp"},
@@ -210,11 +215,60 @@ let data = [
   ]
 },
 {
-  name: "Pie 0ven",
+  name: "Pie Oven",
+  icon: "Pie_Oven.webp",
   open: false,
   items: [
     {name:"Carrot Pie", level:14, stock:1000, img:"Carrot_Pie.webp"},
     {name:"Pumpkin Pie", level:15, stock:1000, img:"Pumpkin_Pie.webp"},
+    {name:"Bacon Pie", level:18, stock:1000, img:"Bacon_Pie.webp"},
+    {name:"Apple Pie", level:28, stock:1000, img:"Apple_Pie.webp"},
+    {name:"Fish Pie", level:28, stock:1000, img:"Fish_Pie.webp"},
+    {name:"Feta Pie", level:34, stock:1000, img:"Feta_Pie.webp"},
+    {name:"Casserole", level:36, stock:1000, img:"Casserole.webp"},
+    {name:"Shepherd's Pie", level:39, stock:1000, img:"Sepherd%27s.webp"},
+    {name:"Asparagus Quiche", level:49, stock:1000, img:"Asparagus_Quiche.webp"},
+    {name:"Chocolate Pie", level:65, stock:1000, img:"Chocolate_Pie.webp"},
+    {name:"Lemon pie", level:67, stock:1000, img:"Lemon_Pie.webp"},
+    {name:"Peach Tart", level:76, stock:1000, img:"Peach_Tart.webp"},
+    {name:"Passion Fruit Pie", level:92, stock:1000, img:"Passion_Fruit_Pie.webp"},
+    {name:"Mushroom Pot Pie", level:97, stock:1000, img:"Mushroom_Pot_Pie.webp"},
+    {name:"Eggplant Pamersan", level:99, stock:1000, img:"Eggplant_Pamersan.webp"},
+  ]
+},
+{
+  name: "Loom",
+  icon: "Loom.webp",
+  open: false,
+  items: [
+    {name:"Sweater", level:17, stock:1000, img:"Sweater.webp"},
+    {name:"Cotton Fabric", level:18, stock:1000, img:"Cotton_Fabric.webp"},
+    {name:"Blue Woolly Hat", level:19, stock:1000, img:"Blue_Wolly_Hat.webp"},
+    {name:"Blue Sweater", level:20, stock:1000, img:"Blue_Sweater.webp"},
+    {name:"Red Scarf", level:48, stock:1000, img:"Red_Scarf.webp"},
+    {name:"Flower Shawl", level:71, stock:1000, img:"Flower_Shawl.webp"},
+  ]
+},
+{
+  name: "Sewing Machine",
+  icon: "Sewing_Machine.webp",
+  open: false,
+  items: [
+    {name:"Cotton Shirt", level:19, stock:1000, img:"Cotton_Shirt.webp"},
+    {name:"Wooly Chaps", level:21, stock:1000, img:"Wooly_Chaps.webp"},
+    {name:"Violet Dress", level:25, stock:1000, img:"Violet_Dress.webp"},
+    {name:"Shooting Pad", level:45, stock:1000, img:"Shooting_Pad.webp"},
+    {name:"Pillow", level:51, stock:1000, img:"Pillow.webp"},
+    {name:"Blanket", level:59, stock:1000, img:"Blanket.webp"},
+  ]
+},
+{
+  name: "Cake Oven",
+  icon: "Cake_Oven.webp",
+  open: false,
+  items: [
+    {name:"Carrot Cake", level:14, stock:1000, img:"Carrot_Pie.webp"},
+    {name:"Cream Cake", level:15, stock:1000, img:"Pumpkin_Pie.webp"},
     {name:"Bacon Pie", level:18, stock:1000, img:"Bacon_Pie.webp"},
     {name:"Apple Pie", level:28, stock:1000, img:"Apple_Pie.webp"},
     {name:"Fish Pie", level:28, stock:1000, img:"Fish_Pie.webp"},
@@ -282,7 +336,7 @@ function render(){
   data.forEach((cat, i) => {
     html += `
     <div class="category" onclick="toggle(${i})">
-        <img src="img/icon.png" class="cat-icon">
+        <img src="img/${cat.icon}" class="cat-icon">
         ${cat.name}
     </div>`;
 
