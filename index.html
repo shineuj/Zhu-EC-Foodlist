@@ -47,6 +47,13 @@ body {
   cursor: pointer;
 }
 
+.cat-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+  
 .item {
   background: white;
   padding: 10px;
@@ -56,7 +63,7 @@ body {
   align-items: center;
   gap: 10px;
 }
-
+  
 .thumb {
   width: 55px;
   height: 55px;
@@ -272,8 +279,12 @@ function render(){
   let q = document.querySelector(".search").value.toLowerCase();
   let html = "";
 
-  data.forEach((cat,i)=>{
-    html += `<div class="category" onclick="toggle(${i})">📦 ${cat.name}</div>`;
+  data.forEach((cat, i) => {
+    html += `
+    <div class="category" onclick="toggle(${i})">
+        <img src="img/icon.png" class="cat-icon">
+        ${cat.name}
+    </div>`;
 
     if(cat.open){
       cat.items.forEach((item,j)=>{
