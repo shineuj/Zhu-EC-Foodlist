@@ -2,12 +2,20 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Zhu Store Food Manager</title>
 
 <style>
+*{
+  margin:0:
+  padding:0;
+  box-sizing:border-box;
+}
 body {
-  font-family: Arial;
+  font-family: Arial, sans-serif;
   background: #E6EDDD;
+  color:#3A2C1E
+  min-height:100vh;
   padding: 15px;
 }
 
@@ -34,11 +42,21 @@ body {
 .search {
   width: 100%;
   padding: 10px;
-  border-radius: 20px;
-  border: 1px solid #ccc;
-  margin-bottom: 10px;
+  margin:12px 0;
+  border:2px solid #D8C3A5;
+  border-radius: 30px;
+  background:#FFF8F2
+  font sizr:16px;
+  outline:none;
+  transition:.3s;
 }
 
+.search:focus{
+  border-color:#8B5E34;
+  box-shadow:0 0 0 4px
+rgba (139,94,52,.15);
+}
+  
 .category {
   background: #f3f3f3;
   padding: 10px;
@@ -56,12 +74,13 @@ body {
   
 .item {
   background: white;
-  padding: 10px;
+  padding: 12px;
   border-radius: 12px;
   margin: 8px 0;
   display: flex;
   align-items: center;
   gap: 10px;
+  width:100%;
 }
   
 .thumb {
@@ -70,7 +89,7 @@ body {
   border-radius: 10px;
   background: #eee;
   display: flex;
-  align-item: center;
+  align-items: center;
   justify-content: center;
 }
   
